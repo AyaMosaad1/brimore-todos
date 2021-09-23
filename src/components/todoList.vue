@@ -1,16 +1,17 @@
 <template>
-  <div class="container">
-    <ul v-for="item in $store.getters.AllTodos" :key="item.Name"> <li> data : {{ item.Name }} </li>
-      <p> {{ item.IsCompleted ? "Completed" : "Not Done" }}</p>
-    </ul>
-
+  <div class="container" v-for="item in $store.getters.AllTodos" :key="item.Name">
+    <Todo :todo ="item"/>
   </div>
 </template>
 
 <script>
+import Todo from '@/components/todo.vue';
 
 export default {
   name: 'TodoList',
+  components: {
+    Todo,
+  },
 };
 
 </script>

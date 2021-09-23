@@ -2861,6 +2861,14 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bootstrap-vue-3@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/bootstrap-vue-3/-/bootstrap-vue-3-0.0.3.tgz#c6cf7e165f26d5c6019e13d450dc569175693485"
+  integrity sha512-5yZSlEwnx9QzC8Owyh1JK9OEtFPNwHhRYoyohfa0OwHzHZc9aluJ1uFLaOYdgDc9tUxlbZNl/qJYc+6yI2G0uw==
+  dependencies:
+    bootstrap "^5.0.2"
+    core-js "^3.6.5"
+
 bootstrap-vue@^2.21.2:
   version "2.21.2"
   resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.21.2.tgz#ec38f66c3a2205becccddb6158a991d96509ed0b"
@@ -2877,7 +2885,7 @@ bootstrap-vue@^2.21.2:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.6.0.tgz#97b9f29ac98f98dfa43bf7468262d84392552fd7"
   integrity sha512-Io55IuQY3kydzHtbGvQya3H+KorS/M9rSNyfCGCg9WZ4pyT/lCxIlpJgG1GXW/PswzC84Tr2fBYi+7+jFVQQBw==
 
-bootstrap@^5.1.1:
+bootstrap@^5.0.2, bootstrap@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.1.1.tgz#9d6eed81e08feaccedf3adaca51fe4b73a2871df"
   integrity sha512-/jUa4sSuDZWlDLQ1gwQQR8uoYSvLJzDd8m5o6bPKh3asLAMYVZKdRCjb1joUd5WXf0WwCNzd2EjwQQhupou0dA==

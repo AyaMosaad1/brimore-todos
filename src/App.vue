@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="mt-20">
+  <div id="app" class="mt-10">
     <AddTodo/>
     <hr/>
     <TodoList/>

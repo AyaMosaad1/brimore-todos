@@ -1,10 +1,16 @@
 <template>
-  <div class="container" v-for="item in $store.getters.AllTodos" :key="item.Name">
-    <Todo :todo ="item"/>
-  </div>
+  <div
+  v-for="todo in allTodos"
+  v-bind:key="todo.key">
+  <Todo
+  :todo ="todo"
+  />
+</div>
+
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import Todo from '@/components/todo.vue';
 
 export default {
@@ -12,6 +18,12 @@ export default {
   components: {
     Todo,
   },
+  methods: {
+    ...mapActions(['fetchTodos']),
+  },
+  computed: mapGetters(['allTodos']),
+  created() {
+    this.fetchTodos();
+  },
 };
-
 </script>

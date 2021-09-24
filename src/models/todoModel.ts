@@ -1,14 +1,17 @@
-export default class TodoModel {
-    Name: string;
-    IsCompleted: boolean;
-  
+  export default class TodoModel {
+    useId:number;
+    id:number;
+    title: string;
+    completed: Boolean;
+
     constructor() {
-      this.Name = '';
-      this.IsCompleted = false;
+      this.useId = 0;
+      this.id=0;
+      this.title = '';
+      this.completed = false;
     }
   }
 
 export interface StateModel {
     todos: TodoModel[]
   }
-  

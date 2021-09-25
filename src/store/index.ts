@@ -13,13 +13,20 @@ export const store = createStore({
   mutations: {
     setTodos(Setstate, todos) {
       // Setstate.todosState = todos;
-      Setstate.todosState = todos.slice(todos.length - 4, todos.length);
+      Setstate.todosState = todos.slice(0, 10);
       return Setstate.todosState;
     },
     addTodo: (addstate, newTodo) => addstate.todosState.unshift(newTodo),
     removeTodo(Delstate, id) {
-      Delstate.todosState = Delstate.todosState.filter((todo) => todo.id !== id);
-      return Delstate.todosState;
+      let i: number;
+      const curr = Delstate.todosState.map((e) => e.id).indexOf(id);
+      for (i = 0; i < Delstate.todosState.length; i += 1) {
+        if (i === curr) {
+          Delstate.todosState.splice(i, 1);
+          console.log('in if', i, id);
+        }
+      }
+      console.log(curr);
     },
     updateTodo(Upstate, updatedTodo) {
       // Find index of update one
@@ -37,7 +44,7 @@ export const store = createStore({
     },
     async addTodo({ commit }, addtitle) {
       const defaultObject = {
-        // id: newId,
+        // id: id++,
         title: addtitle,
         completed: false,
       };
@@ -55,6 +62,12 @@ export const store = createStore({
   },
   getters: {
     allTodos: (allState) => allState.todosState,
+    CompletedTodos(CompletedState) {
+      return CompletedState.todosState.filter((todo) => todo.completed === true);
+    },
+    pendTodos(pendState) {
+      return pendState.todosState.filter((todo) => todo.completed === false);
+    },
   },
   modules: {},
 });

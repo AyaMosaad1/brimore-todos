@@ -8,10 +8,10 @@
     size="lg" @click="clickUpdate($event, todo)" :disabled = todo.completed >
     <div class="row">
     <b-card class="px-5 mb-3 col-lg-8">
-    {{ todo.title }} with id is {{ todo.id }}
+       {{ todo.id }} . {{ todo.title }}
       <b-form-checkbox button button-variant="info"
       class="mx-5 inlineButton float-right">
-          <b>(Checked: {{ todo.completed ? 'Completed' : 'Not completed'}})</b>
+          <b>(  {{ todo.completed ? 'Completed' : 'Not completed'}}  )</b>
       </b-form-checkbox>
 
     </b-card>
@@ -20,7 +20,7 @@
           <b-icon icon="pencil" ></b-icon>
         </b-button>
         <a-modal
-        title="Title"
+        title="Edit your title of todo"
         :visible="visible"
         :confirm-loading="confirmLoading"
         @ok="handleOkUpdate(todo)"
@@ -29,7 +29,7 @@
 
       <div class='form-group row'>
         <label for='Name' class='col-sm-1 col-lg-2 h2 lead mt-2'></label>
-        <div class='col-sm-4 col-lg-8' >
+        <div class='col-sm-10 col-lg-8' >
           <b-form-input size='lg' type="text" v-model="newTitle" class='form-control'>
           </b-form-input>
         </div>

@@ -6,36 +6,63 @@
    </div>
 
     <a-form-item class="ml-5">
-      <a-radio-group default-value="horizontal" class="lg"
+      <a-radio-group class="lg"
        @change="handleFormLayoutChange"
        >
         <a-radio-button value="all">
           All todos
         </a-radio-button>
-        <!-- <a-radio-button value="completed">
+        <a-radio-button value="completed">
           completed todos
         </a-radio-button>
         <a-radio-button value="Apend">
-        Non completed todos
-        </a-radio-button>-->
+        Not completed todos
+        </a-radio-button>
       </a-radio-group>
     </a-form-item>
 
-        <div
-        v-for="todo in todoArr"
+<div v-if="type === 'all'">
+         <div
+        v-for="todo in allTodos"
         v-bind:key="todo.key"
         >
         <Todo
         :todo ="todo"
         />
       </div>
-  </div>
+</div>
+
+<div v-if="type === 'completed'">
+         <div
+        v-for="todo in allTodos"
+        v-bind:key="todo.key"
+        >
+        <div v-if="todo.completed">
+        <Todo
+        :todo ="todo"
+        />
+        </div>
+      </div>
+</div>
+
+<div v-if="type === 'Apend'">
+         <div
+        v-for="todo in allTodos"
+        v-bind:key="todo.key"
+        >
+        <div v-if="!todo.completed">
+        <Todo
+        :todo ="todo"
+        />
+        </div>
+      </div>
+</div>
+   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Todo from '@/components/todo.vue';
-import TodoModel from '../models/todoModel';
 import Filter from '@/components/filter.vue';
 
 export default {
@@ -46,29 +73,16 @@ export default {
   },
   data() {
     return {
-      todoArr: TodoModel,
-      todosType: 'completed',
       type: String,
     };
   },
   methods: {
     ...mapActions(['fetchTodos']),
-    getTodos() {
-      if (this.type === 'completed') {
-        this.todoArr = this.CompletedTodos;
-      } else if (this.type === 'Apend') {
-        this.todoArr = this.apendTodos;
-      } else {
-        this.todoArr = this.allTodos;
-      }
-    },
     handleFormLayoutChange(e) {
       this.type = e.target.value;
-      this.getTodos();
-      console.log(e.target.value);
     },
   },
-  computed: mapGetters(['CompletedTodos', 'allTodos', 'apendTodos']),
+  computed: mapGetters(['allTodos', 'CompletedTodos', 'apendTodos']),
   created() {
     this.fetchTodos();
   },

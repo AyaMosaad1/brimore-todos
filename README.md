@@ -1,7 +1,5 @@
 # Todo App
-
-So here you are! We need your help with a small Todo App. We already setup a brand new project for you that already contains a very basic Vue.js setup.
-Your task is now to finish the Todo App by completing the features to add, edit and delete todos by using [JSONplaceholder](https://jsonplaceholder.typicode.com/).
+ The Todo App by completing the features to add, edit and delete todos by using [JSONplaceholder](https://jsonplaceholder.typicode.com/) and implemented it using Vue typeScript, Vuex, AntDesignVue and Bootstrap.
 
 ## Technical starting point
 Our team was already able to complete the following:

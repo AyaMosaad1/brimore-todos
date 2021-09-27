@@ -4,7 +4,7 @@
     <div>
       <div class='form-group row'>
         <label for='Name' class='col-sm-1 col-lg-2 h2 lead mt-2'></label>
-        <div class='col-sm-4 col-lg-8' >
+        <div class='col-sm-10 col-lg-8 mx-4' >
           <b-form-input size='lg' type="text" v-model="title" class='form-control'> </b-form-input>
         </div>
 

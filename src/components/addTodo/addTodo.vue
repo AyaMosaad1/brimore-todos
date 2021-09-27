@@ -45,9 +45,7 @@ export default defineComponent({
     ...mapActions(['addTodo']),
     onSubmit(event:any) {
       event.preventDefault();
-      console.log(this.title);
       this.addTodo(this.title);
-      console.log(this.allTodos);
       this.title = ' ';
     },
   },

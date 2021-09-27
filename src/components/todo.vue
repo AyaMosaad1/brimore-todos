@@ -16,7 +16,7 @@
 
     </b-card>
        <div class="col-lg-3 mt-4 ml-5">
-        <b-button class="mx-5" variant="dark" @click="clickon($event);showModal()">
+        <b-button class="mx-5" variant="dark" @click="showModal">
           <b-icon icon="pencil" ></b-icon>
         </b-button>
         <a-modal
@@ -76,7 +76,8 @@ export default defineComponent({
       };
       this.updateTodo(updatedTodo);
     },
-    showModal() {
+    showModal(e:Event) {
+      e.stopPropagation();
       this.visible = !this.visible;
     },
     handleOkUpdate(todo:TodoModel) {

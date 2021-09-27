@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
 import TodoModel from '../models/todoModel';
+import coreApi from '../core/core';
+
+const {
+  fetchTodos, deleteTodo, updateTodo, addTodo, FilterTodos,
+} = coreApi;
 
 export interface State { todosState: TodoModel[] }
 
@@ -12,8 +16,8 @@ export const store = createStore({
   state,
   mutations: {
     setTodos(Setstate, todos) {
-      // Setstate.todosState = todos;
-      Setstate.todosState = todos.slice(0, 10);
+      Setstate.todosState = todos;
+      // Setstate.todosState = todos.slice(0, 10);
       return Setstate.todosState;
     },
     addTodo: (addstate, newTodo) => addstate.todosState.unshift(newTodo),
@@ -23,15 +27,11 @@ export const store = createStore({
       for (i = 0; i < Delstate.todosState.length; i += 1) {
         if (i === curr) {
           Delstate.todosState.splice(i, 1);
-          console.log('in if', i, id);
         }
       }
-      console.log(curr);
     },
     updateTodo(Upstate, updatedTodo) {
-      // Find index of update one
       const index = Upstate.todosState.findIndex((todo) => todo.id === updatedTodo.id);
-
       if (index !== -1) {
         Upstate.todosState.splice(index, 1, updatedTodo);
       }
@@ -39,8 +39,12 @@ export const store = createStore({
   },
   actions: {
     async fetchTodos({ commit }) {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
-      commit('setTodos', response.data);
+      const promiseFetch = fetchTodos();
+      promiseFetch.then((response) => {
+        commit('setTodos', response.data);
+      }).catch((error) => {
+        console.log('error in fetch', error);
+      });
     },
     async addTodo({ commit }, addtitle) {
       let newId = this.getters.todoslenght + 1;
@@ -50,7 +54,8 @@ export const store = createStore({
         title: addtitle,
         completed: false,
       };
-      await axios.post('https://jsonplaceholder.typicode.com/todos', defaultObject).then((resp) => {
+      const promiseAdd = addTodo(defaultObject);
+      promiseAdd.then(() => {
         commit('addTodo', defaultObject);
         newId += 1;
       }).catch((error) => {
@@ -58,17 +63,24 @@ export const store = createStore({
       });
     },
     async deleteTodo({ commit }, id) {
-      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+      await deleteTodo(id);
       commit('removeTodo', id);
     },
     async updateTodo({ commit }, updatedTodo) {
-      const response = await axios.patch(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, updatedTodo);
-      commit('updateTodo', response.data);
+      const promiseUpdate = updateTodo(updatedTodo);
+      promiseUpdate.then((response) => {
+        commit('updateTodo', response.data);
+      }).catch((error) => {
+        console.log('error in fetch', error);
+      });
     },
     async filterTodos({ commit }, event) {
-      const limit = parseInt(event.target.options[event.target.options.selectedIndex].innerText, 0);
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`);
-      commit('setTodos', response.data);
+      const promiseFilter = FilterTodos(event);
+      promiseFilter.then((response) => {
+        commit('setTodos', response.data);
+      }).catch((error) => {
+        console.log('error in filtering', error);
+      });
     },
   },
   getters: {
@@ -76,8 +88,8 @@ export const store = createStore({
     CompletedTodos(CompletedState) {
       return CompletedState.todosState.filter((todo) => todo.completed === true);
     },
-    pendTodos(pendState) {
-      return pendState.todosState.filter((todo) => todo.completed === false);
+    apendTodos(apendState) {
+      return apendState.todosState.filter((todo) => todo.completed === false);
     },
     todoslenght(stateLen) {
       return stateLen.todosState.length;

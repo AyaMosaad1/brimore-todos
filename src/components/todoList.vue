@@ -12,12 +12,12 @@
         <a-radio-button value="all">
           All todos
         </a-radio-button>
-        <a-radio-button value="completed">
+        <!-- <a-radio-button value="completed">
           completed todos
         </a-radio-button>
         <a-radio-button value="Apend">
         Non completed todos
-        </a-radio-button>
+        </a-radio-button>-->
       </a-radio-group>
     </a-form-item>
 
@@ -57,7 +57,7 @@ export default {
       if (this.type === 'completed') {
         this.todoArr = this.CompletedTodos;
       } else if (this.type === 'Apend') {
-        this.todoArr = this.pendTodos;
+        this.todoArr = this.apendTodos;
       } else {
         this.todoArr = this.allTodos;
       }
@@ -68,7 +68,7 @@ export default {
       console.log(e.target.value);
     },
   },
-  computed: mapGetters(['allTodos', 'CompletedTodos', 'pendTodos']),
+  computed: mapGetters(['CompletedTodos', 'allTodos', 'apendTodos']),
   created() {
     this.fetchTodos();
   },

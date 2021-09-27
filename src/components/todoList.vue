@@ -1,8 +1,11 @@
 <template>
    <div class="container">
-    <a-form-item
-      label="the todos list"
-    >
+
+   <div class="my-4">
+      <Filter />
+   </div>
+
+    <a-form-item class="ml-5">
       <a-radio-group default-value="horizontal" class="lg"
        @change="handleFormLayoutChange"
        >
@@ -17,6 +20,7 @@
         </a-radio-button>
       </a-radio-group>
     </a-form-item>
+
         <div
         v-for="todo in todoArr"
         v-bind:key="todo.key"
@@ -32,11 +36,13 @@
 import { mapGetters, mapActions } from 'vuex';
 import Todo from '@/components/todo.vue';
 import TodoModel from '../models/todoModel';
+import Filter from '@/components/filter.vue';
 
 export default {
   name: 'TodoList',
   components: {
     Todo,
+    Filter,
   },
   data() {
     return {
@@ -47,7 +53,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTodos']),
-    test() {
+    getTodos() {
       if (this.type === 'completed') {
         this.todoArr = this.CompletedTodos;
       } else if (this.type === 'Apend') {
@@ -58,18 +64,13 @@ export default {
     },
     handleFormLayoutChange(e) {
       this.type = e.target.value;
-      this.test();
+      this.getTodos();
       console.log(e.target.value);
     },
   },
   computed: mapGetters(['allTodos', 'CompletedTodos', 'pendTodos']),
   created() {
     this.fetchTodos();
-    // this.test();
   },
-  // updated() {
-  //   this.test();
-  //   console.log(this.todoArr);
-  // },
 };
 </script>

@@ -1,18 +1,17 @@
 <template>
 <div class="container">
   <b-card no-body class="mb-3">
-    <b-button class="closeButton" variant="danger" @click="clickonD($event , todo.id)">
+    <b-button class="closeButton" variant="danger" @click="clickDelete($event , todo.id)">
       <b-icon icon="calendar-x"></b-icon>
     </b-button>
     <b-button variant="outline-info" class="text-dark col-lg-12 mt-5"
-    size="lg" @click="clickonDB($event)">
+    size="lg" @click="clickUpdate($event, todo)" :disabled = todo.completed >
     <div class="row">
     <b-card class="px-5 mb-3 col-lg-8">
     {{ todo.title }} with id is {{ todo.id }}
-
       <b-form-checkbox button button-variant="info"
       class="mx-5 inlineButton float-right">
-          <b>(Checked: {{ todo.completed ? 'Completed' : 'pending'}})</b>
+          <b>(Checked: {{ todo.completed ? 'Completed' : 'Not completed'}})</b>
       </b-form-checkbox>
 
     </b-card>
@@ -24,15 +23,18 @@
         title="Title"
         :visible="visible"
         :confirm-loading="confirmLoading"
-        @ok="handleOk()"
+        @ok="handleOkUpdate(todo)"
         @cancel="handleCancel()"
       >
-      <a-form :form="form">
-      <a-form-item
-      label="Nickname">
-      <a-input placeholder="Please input your nickname"/>
-       </a-form-item>
-     </a-form>
+
+      <div class='form-group row'>
+        <label for='Name' class='col-sm-1 col-lg-2 h2 lead mt-2'></label>
+        <div class='col-sm-4 col-lg-8' >
+          <b-form-input size='lg' type="text" v-model="newTitle" class='form-control'>
+          </b-form-input>
+        </div>
+      </div>
+
       </a-modal>
 
        </div>
@@ -45,15 +47,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapActions } from 'vuex';
-
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
-};
-const formTailLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 8, offset: 4 },
-};
+import TodoModel from '../models/todoModel';
 
 export default defineComponent({
 
@@ -63,48 +57,45 @@ export default defineComponent({
   },
   data() {
     return {
-      ModalText: 'Aya offfffff',
       visible: false,
       confirmLoading: false,
-      checkNick: false,
-      formItemLayout,
-      formTailLayout,
-
+      newTitle: '',
     };
   },
   methods: {
-    handleChange(e:any) {
-      this.checkNick = e.target.checked;
-    },
-    clickon(e:any) {
-      e.stopPropagation();
-      console.log('click on edit');
-    },
-    clickonD(e:any, id:any) {
+    clickDelete(e:Event, id:number) {
       e.stopPropagation();
       this.deleteTodo(id);
-      console.log('click on delete and delete :', id);
     },
-    clickonDB(e:any) {
+    clickUpdate(e:Event, todo:TodoModel) {
       e.stopPropagation();
-      console.log('click on button');
+      const updatedTodo = {
+        id: todo.id,
+        title: todo.title,
+        completed: !todo.completed,
+      };
+      this.updateTodo(updatedTodo);
     },
     showModal() {
       this.visible = !this.visible;
     },
-    handleOk() {
-      this.ModalText = 'The modal will be closed after two seconds';
+    handleOkUpdate(todo:TodoModel) {
       this.confirmLoading = true;
+      const updatedTodo = {
+        id: todo.id,
+        title: this.newTitle,
+        completed: todo.completed,
+      };
+      this.updateTodo(updatedTodo);
       setTimeout(() => {
         this.visible = false;
         this.confirmLoading = false;
-      }, 2000);
+      }, 1000);
     },
     handleCancel():void {
-      console.log('Clicked cancel button');
       this.visible = false;
     },
-    ...mapActions(['deleteTodo']),
+    ...mapActions(['deleteTodo', 'updateTodo']),
   },
 });
 </script>

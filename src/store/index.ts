@@ -43,21 +43,32 @@ export const store = createStore({
       commit('setTodos', response.data);
     },
     async addTodo({ commit }, addtitle) {
+      let newId = this.getters.todoslenght + 1;
       const defaultObject = {
-        // id: id++,
+        useId: 1,
+        id: newId,
         title: addtitle,
         completed: false,
       };
-      const response = await axios.post('https://jsonplaceholder.typicode.com/todos', defaultObject);
-      commit('addTodo', response.data);
+      await axios.post('https://jsonplaceholder.typicode.com/todos', defaultObject).then((resp) => {
+        commit('addTodo', defaultObject);
+        newId += 1;
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     async deleteTodo({ commit }, id) {
       await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
       commit('removeTodo', id);
     },
     async updateTodo({ commit }, updatedTodo) {
-      const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, updatedTodo);
+      const response = await axios.patch(`https://jsonplaceholder.typicode.com/todos/${updatedTodo.id}`, updatedTodo);
       commit('updateTodo', response.data);
+    },
+    async filterTodos({ commit }, event) {
+      const limit = parseInt(event.target.options[event.target.options.selectedIndex].innerText, 0);
+      const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`);
+      commit('setTodos', response.data);
     },
   },
   getters: {
@@ -67,6 +78,9 @@ export const store = createStore({
     },
     pendTodos(pendState) {
       return pendState.todosState.filter((todo) => todo.completed === false);
+    },
+    todoslenght(stateLen) {
+      return stateLen.todosState.length;
     },
   },
   modules: {},
